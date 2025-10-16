@@ -1,4 +1,3 @@
-/* App.css */
 * {
   margin: 0;
   padding: 0;
@@ -8,22 +7,32 @@
 :root {
   --primary: #7f00ff;
   --primary-dark: #6a00cc;
+  --primary-light: #9d4dff;
   --secondary: #0096ff;
+  --secondary-dark: #0077cc;
   --success: #4CAF50;
   --warning: #ffa500;
   --danger: #f44336;
   --dark: #1a1a2e;
   --darker: #16213e;
+  --darkest: #0f1123;
   --light: #f8f9fa;
   --gray: #6c757d;
+  --gray-dark: #495057;
   --border: rgba(255,255,255,0.1);
+  --border-light: rgba(255,255,255,0.05);
 }
 
 body {
   background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
   color: var(--light);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
+  line-height: 1.6;
 }
 
 .app {
@@ -230,6 +239,63 @@ body {
   font-size: 0.9rem;
 }
 
+.featured-players {
+  margin-top: 3rem;
+}
+
+.featured-players h3 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: var(--light);
+}
+
+.featured-players .players-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.featured-player-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  padding: 1.5rem;
+  text-align: center;
+  position: relative;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.featured-player-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.featured-player-card .player-rank {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255,255,255,0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.featured-player-card .player-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.featured-player-card .player-rating {
+  font-size: 1.3rem;
+  font-weight: 700;
+  font-family: 'Mistral', cursive;
+}
+
 /* Players Tab */
 .players-tab {
   animation: fadeIn 0.5s ease;
@@ -314,6 +380,7 @@ body {
   font-weight: 600;
 }
 
+/* Player Image Styles */
 .player-image {
   width: 80px;
   height: 80px;
@@ -322,12 +389,19 @@ body {
   position: relative;
   border: 3px solid var(--border);
   overflow: hidden;
+  background: rgba(255,255,255,0.1);
 }
 
 .player-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center top;
+  transition: transform 0.3s ease;
+}
+
+.player-card:hover .player-image img {
+  transform: scale(1.05);
 }
 
 .trend-indicator {
@@ -342,6 +416,7 @@ body {
   justify-content: center;
   font-size: 0.8rem;
   border: 2px solid var(--dark);
+  font-weight: bold;
 }
 
 .player-info {
@@ -392,6 +467,123 @@ body {
   display: block;
   font-size: 0.8rem;
   color: var(--gray);
+}
+
+/* Featured player cards */
+.featured-player-card .player-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  overflow: hidden;
+  border: 3px solid var(--border);
+  background: rgba(255,255,255,0.1);
+}
+
+.featured-player-card .player-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.3s ease;
+}
+
+.featured-player-card:hover .player-avatar img {
+  transform: scale(1.05);
+}
+
+/* Top players in leaderboards */
+.top-player .player-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--border);
+  background: rgba(255,255,255,0.1);
+  flex-shrink: 0;
+}
+
+.top-player .player-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* Modal large image */
+.player-image-large {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 4px solid var(--border);
+  overflow: hidden;
+  background: rgba(255,255,255,0.1);
+  flex-shrink: 0;
+}
+
+.player-image-large img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* Image fallback styles */
+.image-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.1);
+  color: var(--gray);
+  border-radius: 50%;
+}
+
+.player-image .image-fallback {
+  font-size: 2rem;
+}
+
+.featured-player-card .player-avatar .image-fallback {
+  font-size: 2rem;
+}
+
+.top-player .player-avatar .image-fallback {
+  font-size: 1.5rem;
+}
+
+.player-image-large .image-fallback {
+  font-size: 3rem;
+}
+
+/* Ensure proper image scaling for different aspect ratios */
+.player-image img,
+.featured-player-card .player-avatar img,
+.top-player .player-avatar img,
+.player-image-large img {
+  object-fit: cover;
+  object-position: center 25%;
+}
+
+/* Specific adjustments for BYT player images */
+.player-image img[src*="byt-tournaments.de"],
+.featured-player-card .player-avatar img[src*="byt-tournaments.de"],
+.top-player .player-avatar img[src*="byt-tournaments.de"],
+.player-image-large img[src*="byt-tournaments.de"] {
+  object-position: center 20%;
+}
+
+/* Smooth loading animation */
+@keyframes imageLoad {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.player-image img,
+.featured-player-card .player-avatar img,
+.top-player .player-avatar img,
+.player-image-large img {
+  animation: imageLoad 0.5s ease-out;
 }
 
 /* Modal */
@@ -455,20 +647,6 @@ body {
   align-items: center;
   gap: 2rem;
   margin-bottom: 2rem;
-}
-
-.player-image-large {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  border: 4px solid var(--border);
-  overflow: hidden;
-}
-
-.player-image-large img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 .player-details h2 {
@@ -539,13 +717,8 @@ body {
 }
 
 .chart-placeholder {
-  height: 200px;
   background: rgba(255,255,255,0.05);
   border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--gray);
   border: 1px dashed var(--border);
 }
 
@@ -623,6 +796,10 @@ body {
   color: var(--primary);
 }
 
+.stat-value.positive {
+  color: var(--success);
+}
+
 /* Leaderboards Tab */
 .leaderboards-tab h2 {
   font-size: 2rem;
@@ -660,6 +837,12 @@ body {
   border-radius: 15px;
   position: relative;
   overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.top-player:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary);
 }
 
 .top-player.rank-1 {
@@ -686,19 +869,12 @@ body {
   justify-content: center;
   font-weight: 700;
   font-size: 1.2rem;
+  flex-shrink: 0;
 }
 
 .rank-1 .rank-badge { background: gold; color: #000; }
 .rank-2 .rank-badge { background: silver; color: #000; }
 .rank-3 .rank-badge { background: #cd7f32; color: #000; }
-
-.player-avatar {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.1);
-  border: 2px solid var(--border);
-}
 
 .player-details {
   flex: 1;
@@ -741,6 +917,30 @@ body {
   color: var(--light);
 }
 
+/* Footer */
+.app-footer {
+  background: rgba(26, 26, 46, 0.8);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border);
+  padding: 2rem 0;
+  margin-top: 4rem;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--gray);
+}
+
+.footer-links {
+  display: flex;
+  gap: 1rem;
+}
+
 /* Animations */
 @keyframes fadeIn {
   from { opacity: 0; }
@@ -779,5 +979,29 @@ body {
   
   .stat-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .footer-content {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .search-bar {
+    min-width: 100%;
+  }
+  
+  .hero-content h2 {
+    font-size: 2rem;
+  }
+  
+  .section-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .filters {
+    flex-wrap: wrap;
   }
 }
