@@ -36,64 +36,100 @@ body {
   line-height: 1.6;
 }
 
-/* App Loading */
-.app-loading {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
 
-.loading-content {
-  text-align: center;
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-.spinner {
-  width: 50px;
-  height: 50px;
-  border: 4px solid rgba(127, 0, 255, 0.3);
-  border-top: 4px solid var(--primary);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 0 auto 2rem;
+::-webkit-scrollbar-track {
+  background: var(--darker);
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
 }
 
-/* Add this to your existing App.css for the chart bars */
-.chart-bars {
-  display: flex;
-  align-items: end;
-  gap: 10px;
-  height: 120px;
-  padding: 20px 0;
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-light);
 }
 
-.chart-bar-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
+/* Selection Styling */
+::selection {
+  background: var(--primary);
+  color: white;
 }
 
-.chart-bar {
-  width: 20px;
-  border-radius: 4px 4px 0 0;
-  transition: all 0.3s ease;
-  min-height: 5px;
+/* Focus Outline */
+*:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
-.chart-label {
-  margin-top: 5px;
-  font-size: 0.8rem;
-  color: var(--gray);
+/* Utility Classes */
+.text-gradient {
+  background: linear-gradient(45deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+}
+
+.shadow-glow {
+  box-shadow: 0 0 20px rgba(127, 0, 255, 0.3);
+}
+
+/* Animation Classes */
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.slide-up {
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
 }
