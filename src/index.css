@@ -1,5 +1,3 @@
-/* index.css - Updated for Dark/Gold Theme Alignment */
-
 /* Global Styles */
 * {
   margin: 0;
@@ -8,27 +6,57 @@
 }
 
 :root {
-  /* Aligned with App.css for consistent base colors */
-  --bg-dark: #111827; 
-  --bg-card: #1f2937;
-  --text-light: #f9fafb;
-  --gold-500: #f59e0b;
+  /* White Theme Colors */
+  --bg-white: #ffffff;
+  --bg-light: #f8f9fa;
+  --bg-lighter: #fafbfc;
   
-  --primary: var(--gold-500); /* Use Gold as the primary color */
-  --dark: var(--bg-dark);
-  --darker: #0f172a; /* Slightly deeper dark for gradient start */
+  /* Golden Accent Colors */
+  --gold-50: #fef9e7;
+  --gold-100: #fef3c7;
+  --gold-200: #fde68a;
+  --gold-300: #fcd34d;
+  --gold-400: #fbbf24;
+  --gold-500: #f59e0b;
+  --gold-600: #d97706;
+  --gold-700: #b45309;
+  --gold-800: #92400e;
+  --gold-900: #78350f;
+  
+  /* Text Colors */
+  --text-dark: #1f2937;
+  --text-gray: #6b7280;
+  --text-light: #9ca3af;
+  
+  /* Border & Shadow */
+  --border-light: #e5e7eb;
+  --border-medium: #d1d5db;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  /* Typography */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
 }
 
 body {
-  /* Set a deep dark background with a subtle gradient */
-  background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
-  color: var(--text-light);
+  background: var(--bg-white);
+  color: var(--text-dark);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
+  line-height: 1.6;
 }
 
 code {
@@ -43,29 +71,6 @@ button {
   transition: all 0.2s ease;
 }
 
-/* Base animations (kept from original to support loading screen) */
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* App Loading Screen Styles */
 .app-loading {
   position: fixed;
@@ -73,8 +78,7 @@ button {
   left: 0;
   width: 100%;
   height: 100%;
-  /* Use the new dark theme colors */
-  background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+  background: var(--bg-white);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -83,15 +87,14 @@ button {
 
 .loading-content {
   text-align: center;
-  color: var(--text-light);
+  color: var(--text-dark);
 }
 
 .spinner {
   width: 50px;
   height: 50px;
-  /* Use gold accent for spinner */
-  border: 4px solid rgba(245, 158, 11, 0.3);
-  border-top: 4px solid var(--primary);
+  border: 4px solid rgba(245, 158, 11, 0.2);
+  border-top: 4px solid var(--gold-500);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto 2rem;
