@@ -1,119 +1,76 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import './App.css';
 
-// Mock data
-const playerData = [
-  {
-    id: 1,
-    name: "Zenon",
-    country: "PL",
-    team: "Gotei 13",
-    rating: 91.9,
-    trend: "down",
-    image: "https://byt-tournaments.de/leaderboard/overlay/faces/1513490.png",
-    stats: { kills: 302, assists: 45, damage: 24500, entries: 48, kd: 1.32, adr: 85.4 },
-    history: [89.2, 90.5, 91.2, 91.9]
-  },
-  {
-    id: 2,
-    name: "Red",
-    country: "FR",
-    team: "BMS",
-    rating: 89.7,
-    trend: "up",
-    image: "https://byt-tournaments.de/leaderboard/overlay/faces/449912.png",
-    stats: { kills: 285, assists: 67, damage: 23800, entries: 42, kd: 1.28, adr: 87.6 },
-    history: [87.2, 88.5, 89.0, 89.7]
-  },
-  {
-    id: 3,
-    name: "Achilles",
-    country: "SE",
-    team: "Drug Abusers",
-    rating: 89.6,
-    trend: "down",
-    image: "https://byt-tournaments.de/leaderboard/overlay/faces/1556384.png",
-    stats: { kills: 332, assists: 86, damage: 27958, entries: 60, kd: 1.45, adr: 82.1 },
-    history: [90.2, 89.8, 90.1, 89.6]
-  },
-  {
-    id: 4,
-    name: "Wursti",
-    country: "DE",
-    team: "O'Block",
-    rating: 89.0,
-    trend: "up",
-    image: "https://byt-tournaments.de/leaderboard/overlay/faces/290348.png",
-    stats: { kills: 278, assists: 98, damage: 22500, entries: 38, kd: 1.25, adr: 79.8 },
-    history: [86.5, 87.2, 88.1, 89.0]
-  },
-  {
-    id: 5,
-    name: "bunter_igel",
-    country: "DE",
-    team: "O'Block",
-    rating: 88.3,
-    trend: "up",
-    image: "https://byt-tournaments.de/leaderboard/overlay/faces/671857.png",
-    stats: { kills: 265, assists: 72, damage: 21800, entries: 35, kd: 1.22, adr: 78.3 },
-    history: [85.8, 86.5, 87.4, 88.3]
-  },
-  {
-    id: 6,
-    name: "Python",
-    country: "EN",
-    team: "Drug Abusers",
-    rating: 88.1,
-    trend: "down",
-    image: "https://byt-tournaments.de/leaderboard/overlay/faces/927368.png",
-    stats: { kills: 290, assists: 58, damage: 23200, entries: 45, kd: 1.30, adr: 81.5 },
-    history: [89.0, 88.7, 88.9, 88.1]
-  },
-  {
-    id: 7,
-    name: "sHype",
-    country: "NL",
-    team: "Drug Abusers",
-    rating: 88.0,
-    trend: "down",
-    image: "https://byt-tournaments.de/leaderboard/overlay/faces/1472629.png",
-    stats: { kills: 327, assists: 86, damage: 27721, entries: 50, kd: 1.38, adr: 83.2 },
-    history: [89.5, 88.8, 88.3, 88.0]
-  },
-  {
-    id: 8,
-    name: "Jakob",
-    country: "DE",
-    team: "Gotei 13",
-    rating: 87.4,
-    trend: "up",
-    image: "https://byt-tournaments.de/leaderboard/overlay/faces/1123134.png",
-    stats: { kills: 310, assists: 100, damage: 26692, entries: 44, kd: 1.29, adr: 80.1 },
-    history: [85.2, 86.1, 86.9, 87.4]
-  },
-  {
-    id: 9,
-    name: "Gibby",
-    country: "EN",
-    team: "Unknown",
-    rating: 87.1,
-    trend: "up",
-    image: "https://ui-avatars.com/api/?name=Gibby&background=7f00ff&color=fff&size=128&bold=true",
-    stats: { kills: 245, assists: 52, damage: 21500, entries: 32, kd: 1.18, adr: 76.8 },
-    history: [84.5, 85.3, 86.2, 87.1]
-  },
-  {
-    id: 10,
-    name: "TheDeaD",
-    country: "FR",
-    team: "Unknown",
-    rating: 86.9,
-    trend: "up",
-    image: "https://ui-avatars.com/api/?name=TheDeaD&background=0096ff&color=fff&size=128&bold=true",
-    stats: { kills: 268, assists: 61, damage: 22900, entries: 41, kd: 1.24, adr: 79.2 },
-    history: [84.8, 85.6, 86.3, 86.9]
+// Mock data for 200+ players
+const generatePlayerData = () => {
+  const countries = ['PL', 'FR', 'SE', 'DE', 'EN', 'NL', 'IR', 'UA', 'BE', 'RU', 'SC', 'NO', 'US', 'CA', 'BR', 'ES', 'IT', 'TR'];
+  const teams = ['Gotei 13', 'BMS', 'Drug Abusers', 'O\'Block', 'Team Liquid', 'Fnatic', 'Navi', 'Vitality', 'G2', 'FaZe'];
+  const trends = ['up', 'down', 'same', 'new'];
+  
+  const players = [];
+  
+  // Top players with real data
+  const topPlayers = [
+    { id: 1, name: "Zenon", country: "PL", team: "Gotei 13", rating: 91.9, trend: "down" },
+    { id: 2, name: "Red", country: "FR", team: "BMS", rating: 89.7, trend: "up" },
+    { id: 3, name: "Achilles", country: "SE", team: "Drug Abusers", rating: 89.6, trend: "down" },
+    { id: 4, name: "Wursti", country: "DE", team: "O'Block", rating: 89.0, trend: "up" },
+    { id: 5, name: "bunter_igel", country: "DE", team: "O'Block", rating: 88.3, trend: "up" },
+    { id: 6, name: "Python", country: "EN", team: "Drug Abusers", rating: 88.1, trend: "down" },
+    { id: 7, name: "sHype", country: "NL", team: "Drug Abusers", rating: 88.0, trend: "down" },
+    { id: 8, name: "Jakob", country: "DE", team: "Gotei 13", rating: 87.4, trend: "up" },
+    { id: 9, name: "Gibby", country: "EN", team: "Unknown", rating: 87.1, trend: "up" },
+    { id: 10, name: "TheDeaD", country: "FR", team: "Unknown", rating: 86.9, trend: "up" }
+  ];
+
+  // Add top players with detailed stats
+  topPlayers.forEach((player, index) => {
+    players.push({
+      ...player,
+      image: `https://byt-tournaments.de/leaderboard/overlay/faces/${1513490 + index}.png`,
+      stats: { 
+        kills: 300 - (index * 5) + Math.floor(Math.random() * 50),
+        assists: 45 + (index * 3) + Math.floor(Math.random() * 20),
+        damage: 24500 - (index * 200) + Math.floor(Math.random() * 1000),
+        entries: 48 - (index * 2) + Math.floor(Math.random() * 10),
+        kd: 1.3 + (Math.random() * 0.3),
+        adr: 80 + (Math.random() * 10)
+      },
+      history: Array.from({length: 4}, (_, i) => 85 + (Math.random() * 10))
+    });
+  });
+
+  // Generate remaining players
+  for (let i = 11; i <= 200; i++) {
+    const country = countries[Math.floor(Math.random() * countries.length)];
+    const team = teams[Math.floor(Math.random() * teams.length)];
+    const trend = trends[Math.floor(Math.random() * trends.length)];
+    const rating = 65 + (Math.random() * 30); // Ratings between 65-95
+    
+    players.push({
+      id: i,
+      name: `Player${i}`,
+      country,
+      team,
+      rating: parseFloat(rating.toFixed(1)),
+      trend,
+      image: `https://ui-avatars.com/api/?name=Player${i}&background=2c5282&color=fff&size=128&bold=true`,
+      stats: { 
+        kills: Math.floor(Math.random() * 300),
+        assists: Math.floor(Math.random() * 100),
+        damage: Math.floor(Math.random() * 30000),
+        entries: Math.floor(Math.random() * 60),
+        kd: 0.5 + (Math.random() * 2),
+        adr: 50 + (Math.random() * 50)
+      },
+      history: Array.from({length: 4}, (_, i) => 60 + (Math.random() * 35))
+    });
   }
-];
+
+  return players.sort((a, b) => b.rating - a.rating);
+};
+
+const playerData = generatePlayerData();
 
 const statsData = {
   kills: [
@@ -155,11 +112,12 @@ const statsData = {
 
 // Utility functions
 const getRatingColor = (rating) => {
-  if (rating >= 90) return '#7f00ff';
-  if (rating >= 85) return '#0096ff';
-  if (rating >= 80) return '#4CAF50';
-  if (rating >= 75) return '#ffa500';
-  return '#f44336';
+  if (rating >= 90) return '#2c5282'; // Dark blue for elite
+  if (rating >= 85) return '#4299e1'; // Blue for excellent
+  if (rating >= 80) return '#63b3ed'; // Light blue for very good
+  if (rating >= 75) return '#90cdf4'; // Light blue for good
+  if (rating >= 70) return '#cbd5e0'; // Silver/gray for average
+  return '#a0aec0'; // Gray for below average
 };
 
 // Use actual BYT tournament trend icons
@@ -182,28 +140,23 @@ const getTrendIcon = (trend) => {
 
 const getTrendColor = (trend) => {
   switch(trend) {
-    case "up": return "#4CAF50";
-    case "down": return "#f44336";
-    case "same": return "#666";
-    case "new": return "#FFD700";
-    default: return "#666";
+    case "up": return "#48bb78"; // Green
+    case "down": return "#f56565"; // Red
+    case "same": return "#a0aec0"; // Gray
+    case "new": return "#ed8936"; // Orange
+    default: return "#a0aec0";
   }
 };
 
-const getFlagEmoji = (countryCode) => {
-  const flagEmojis = {
-    'PL': '🇵🇱', 'FR': '🇫🇷', 'SE': '🇸🇪', 'DE': '🇩🇪', 
-    'EN': '🏴', 'NL': '🇳🇱', 'IR': '🇮🇷', 'UA': '🇺🇦',
-    'BE': '🇧🇪', 'RU': '🇷🇺', 'SC': '🏴', 'NO': '🇳🇴'
-  };
-  return flagEmojis[countryCode] || '🏳️';
+const getFlagUrl = (countryCode) => {
+  return `https://fantasy.byt-tournaments.de/flags_lb/${countryCode}.png`;
 };
 
 const getPlayerImage = (player) => {
   if (player.image && player.image.includes('byt-tournaments.de')) {
     return player.image;
   }
-  return `https://ui-avatars.com/api/?name=${encodeURIComponent(player.name)}&background=7f00ff&color=fff&size=128&bold=true`;
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(player.name)}&background=2c5282&color=fff&size=128&bold=true`;
 };
 
 // Header Component
@@ -319,56 +272,70 @@ const OverviewTab = ({ players, stats }) => {
 // Players Tab Component
 const PlayersTab = ({ players, onPlayerSelect }) => {
   const [ratingFilter, setRatingFilter] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
+  const playersPerPage = 20;
 
-  const filteredPlayers = players.filter(player => {
-    if (ratingFilter === 'all') return true;
-    if (ratingFilter === '90+') return player.rating >= 90;
-    if (ratingFilter === '85-89') return player.rating >= 85 && player.rating < 90;
-    if (ratingFilter === '80-84') return player.rating >= 80 && player.rating < 85;
-    return true;
-  });
+  const filteredPlayers = useMemo(() => {
+    let filtered = players;
+    
+    if (ratingFilter !== 'all') {
+      if (ratingFilter === '90+') filtered = filtered.filter(p => p.rating >= 90);
+      else if (ratingFilter === '85-89') filtered = filtered.filter(p => p.rating >= 85 && p.rating < 90);
+      else if (ratingFilter === '80-84') filtered = filtered.filter(p => p.rating >= 80 && p.rating < 85);
+      else if (ratingFilter === '75-79') filtered = filtered.filter(p => p.rating >= 75 && p.rating < 80);
+      else if (ratingFilter === '70-74') filtered = filtered.filter(p => p.rating >= 70 && p.rating < 75);
+      else if (ratingFilter === '65-69') filtered = filtered.filter(p => p.rating >= 65 && p.rating < 70);
+    }
+    
+    return filtered;
+  }, [players, ratingFilter]);
+
+  const totalPages = Math.ceil(filteredPlayers.length / playersPerPage);
+  const startIndex = (currentPage - 1) * playersPerPage;
+  const currentPlayers = filteredPlayers.slice(startIndex, startIndex + playersPerPage);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [ratingFilter]);
 
   return (
     <div className="players-tab">
       <div className="section-header">
-        <h2>Player Rankings</h2>
+        <h2>Player Rankings ({filteredPlayers.length} players)</h2>
         <div className="filters">
-          <button 
-            className={`filter-btn ${ratingFilter === 'all' ? 'active' : ''}`}
-            onClick={() => setRatingFilter('all')}
-          >
+          <button className={`filter-btn ${ratingFilter === 'all' ? 'active' : ''}`} onClick={() => setRatingFilter('all')}>
             All
           </button>
-          <button 
-            className={`filter-btn ${ratingFilter === '90+' ? 'active' : ''}`}
-            onClick={() => setRatingFilter('90+')}
-          >
+          <button className={`filter-btn ${ratingFilter === '90+' ? 'active' : ''}`} onClick={() => setRatingFilter('90+')}>
             90+
           </button>
-          <button 
-            className={`filter-btn ${ratingFilter === '85-89' ? 'active' : ''}`}
-            onClick={() => setRatingFilter('85-89')}
-          >
+          <button className={`filter-btn ${ratingFilter === '85-89' ? 'active' : ''}`} onClick={() => setRatingFilter('85-89')}>
             85-89
           </button>
-          <button 
-            className={`filter-btn ${ratingFilter === '80-84' ? 'active' : ''}`}
-            onClick={() => setRatingFilter('80-84')}
-          >
+          <button className={`filter-btn ${ratingFilter === '80-84' ? 'active' : ''}`} onClick={() => setRatingFilter('80-84')}>
             80-84
+          </button>
+          <button className={`filter-btn ${ratingFilter === '75-79' ? 'active' : ''}`} onClick={() => setRatingFilter('75-79')}>
+            75-79
+          </button>
+          <button className={`filter-btn ${ratingFilter === '70-74' ? 'active' : ''}`} onClick={() => setRatingFilter('70-74')}>
+            70-74
+          </button>
+          <button className={`filter-btn ${ratingFilter === '65-69' ? 'active' : ''}`} onClick={() => setRatingFilter('65-69')}>
+            65-69
           </button>
         </div>
       </div>
 
       <div className="players-grid">
-        {filteredPlayers.map((player, index) => (
+        {currentPlayers.map((player, index) => (
           <div 
             key={player.id}
             className="player-card"
             onClick={() => onPlayerSelect(player)}
           >
             <div className="card-glow" style={{ background: getRatingColor(player.rating) }}></div>
-            <div className="player-rank">#{index + 1}</div>
+            <div className="player-rank">#{startIndex + index + 1}</div>
             <div className="player-image">
               <img 
                 src={getPlayerImage(player)} 
@@ -387,7 +354,6 @@ const PlayersTab = ({ players, onPlayerSelect }) => {
                   alt={player.trend}
                   className="trend-icon"
                   onError={(e) => {
-                    // Fallback to text if image fails to load
                     e.target.style.display = 'none';
                     const fallbackText = document.createElement('div');
                     fallbackText.className = 'trend-fallback';
@@ -405,7 +371,18 @@ const PlayersTab = ({ players, onPlayerSelect }) => {
             </div>
             <div className="player-info">
               <div className="player-name">
-                <span className="flag">{getFlagEmoji(player.country)}</span>
+                <img 
+                  src={getFlagUrl(player.country)} 
+                  alt={player.country}
+                  className="flag"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    const fallbackSpan = document.createElement('span');
+                    fallbackSpan.className = 'flag-fallback';
+                    fallbackSpan.textContent = player.country;
+                    e.target.parentNode.appendChild(fallbackSpan);
+                  }}
+                />
                 {player.name}
               </div>
               <div className="player-team">{player.team}</div>
@@ -429,6 +406,31 @@ const PlayersTab = ({ players, onPlayerSelect }) => {
           </div>
         ))}
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="pagination">
+          <button 
+            className="pagination-btn"
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(currentPage - 1)}
+          >
+            Previous
+          </button>
+          
+          <div className="pagination-info">
+            Page {currentPage} of {totalPages}
+          </div>
+          
+          <button 
+            className="pagination-btn"
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage(currentPage + 1)}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 };
@@ -447,7 +449,18 @@ const StatsTab = ({ stats }) => {
                 <div key={index} className="stat-item">
                   <div className="rank">#{index + 1}</div>
                   <div className="player-info">
-                    <span className="flag">{getFlagEmoji(item.country)}</span>
+                    <img 
+                      src={getFlagUrl(item.country)} 
+                      alt={item.country}
+                      className="flag"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        const fallbackSpan = document.createElement('span');
+                        fallbackSpan.className = 'flag-fallback';
+                        fallbackSpan.textContent = item.country;
+                        e.target.parentNode.appendChild(fallbackSpan);
+                      }}
+                    />
                     <span className="player-name">{item.player}</span>
                   </div>
                   <div className={`stat-value ${item.positive ? 'positive' : ''}`}>
@@ -491,7 +504,21 @@ const LeaderboardsTab = ({ stats, players }) => {
                   </div>
                 </div>
                 <div className="player-details">
-                  <div className="player-name">{player.name}</div>
+                  <div className="player-name">
+                    <img 
+                      src={getFlagUrl(player.country)} 
+                      alt={player.country}
+                      className="flag"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        const fallbackSpan = document.createElement('span');
+                        fallbackSpan.className = 'flag-fallback';
+                        fallbackSpan.textContent = player.country;
+                        e.target.parentNode.appendChild(fallbackSpan);
+                      }}
+                    />
+                    {player.name}
+                  </div>
                   <div className="player-stats">
                     <span>Kills: {player.stats.kills}</span>
                     <span>Rating: {player.rating}</span>
@@ -551,7 +578,21 @@ const PlayerModal = ({ player, onClose }) => {
             <h2>{player.name}</h2>
             <div className="player-meta">
               <span className="team">{player.team}</span>
-              <span className="country">{getFlagEmoji(player.country)} {player.country}</span>
+              <span className="country">
+                <img 
+                  src={getFlagUrl(player.country)} 
+                  alt={player.country}
+                  className="flag"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    const fallbackSpan = document.createElement('span');
+                    fallbackSpan.className = 'flag-fallback';
+                    fallbackSpan.textContent = player.country;
+                    e.target.parentNode.appendChild(fallbackSpan);
+                  }}
+                />
+                {player.country}
+              </span>
             </div>
             <div 
               className="player-rating-large"
@@ -601,11 +642,11 @@ const PlayerModal = ({ player, onClose }) => {
               <div className="stat-label">Entries</div>
             </div>
             <div className="stat-item-modal">
-              <div className="stat-value">{player.stats.kd}</div>
+              <div className="stat-value">{player.stats.kd.toFixed(2)}</div>
               <div className="stat-label">K/D Ratio</div>
             </div>
             <div className="stat-item-modal">
-              <div className="stat-value">{player.stats.adr}</div>
+              <div className="stat-value">{player.stats.adr.toFixed(1)}</div>
               <div className="stat-label">ADR</div>
             </div>
           </div>
@@ -620,11 +661,11 @@ const PlayerModal = ({ player, onClose }) => {
                   <div 
                     className="chart-bar"
                     style={{ 
-                      height: `${(rating - 80) * 5}px`,
+                      height: `${(rating - 60) * 2}px`,
                       background: getRatingColor(rating)
                     }}
                   ></div>
-                  <div className="chart-label">{rating}</div>
+                  <div className="chart-label">{rating.toFixed(1)}</div>
                 </div>
               ))}
             </div>
@@ -662,10 +703,12 @@ const App = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const filteredPlayers = playerData.filter(player =>
-    player.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    player.team.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredPlayers = useMemo(() => {
+    return playerData.filter(player =>
+      player.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      player.team.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [searchTerm]);
 
   if (loading) {
     return (
