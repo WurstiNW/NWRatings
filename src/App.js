@@ -468,35 +468,80 @@ const PlayersTab = ({ players, onPlayerSelect }) => {
   );
 };
 
-// Stats Tab Component
-const StatsTab = ({ stats }) => {
+// Stats Tab Component - Compact Design
+const StatsTab = ({ stats, players }) => {
+  const topPlayers = players.slice(0, 5);
+  
+  // Calculate additional stats
+  const averageRating = (players.reduce((sum, player) => sum + player.rating, 0) / players.length).toFixed(1);
+  const playersAbove85 = players.filter(player => player.rating >= 85).length;
+  const totalKills = players.reduce((sum, player) => sum + player.stats.kills, 0);
+  const totalDamage = players.reduce((sum, player) => sum + player.stats.damage, 0);
+
+  const statIcons = {
+    kills: '🎯',
+    assists: '🤝',
+    damage: '💥',
+    damageDiff: '📊',
+    kdDiff: '⚡'
+  };
+
   return (
     <div className="stats-tab">
       <h2>Performance Statistics</h2>
-      <div className="stats-grid">
+      
+      {/* Overview Cards */}
+      <div className="stats-overview">
+        <div className="overview-card">
+          <div className="overview-value">{players.length}</div>
+          <div className="overview-label">Total Players</div>
+        </div>
+        <div className="overview-card">
+          <div className="overview-value">{averageRating}</div>
+          <div className="overview-label">Avg Rating</div>
+        </div>
+        <div className="overview-card">
+          <div className="overview-value">{playersAbove85}</div>
+          <div className="overview-label">85+ Rating</div>
+        </div>
+        <div className="overview-card">
+          <div className="overview-value">{(totalKills / 1000).toFixed(1)}K</div>
+          <div className="overview-label">Total Kills</div>
+        </div>
+      </div>
+
+      {/* Main Stats Grid */}
+      <div className="stats-grid-compact">
         {Object.entries(stats).map(([key, data]) => (
-          <div key={key} className="stat-card-large">
-            <h3>{key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}</h3>
-            <div className="stat-list">
+          <div key={key} className="stat-card-compact">
+            <div className="stat-card-header">
+              <div className="stat-card-title">
+                <span className="stat-card-icon">{statIcons[key]}</span>
+                {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
+              </div>
+              <div className="stat-card-count">Top {data.length}</div>
+            </div>
+            <div className="stat-list-compact">
               {data.map((item, index) => (
-                <div key={index} className="stat-item">
-                  <div className="rank">#{index + 1}</div>
-                  <div className="player-info">
+                <div key={index} className="stat-item-compact">
+                  <div className="rank-compact">#{index + 1}</div>
+                  <div className="player-info-compact">
                     <img 
                       src={getFlagUrl(item.country)} 
                       alt={item.country}
-                      className="flag"
+                      className="flag-compact"
                       onError={(e) => {
                         e.target.style.display = 'none';
                         const fallbackSpan = document.createElement('span');
                         fallbackSpan.className = 'flag-fallback';
                         fallbackSpan.textContent = item.country;
+                        fallbackSpan.style.fontSize = '10px';
                         e.target.parentNode.appendChild(fallbackSpan);
                       }}
                     />
-                    <span className="player-name">{item.player}</span>
+                    <span className="player-name-compact">{item.player}</span>
                   </div>
-                  <div className={`stat-value ${item.positive ? 'positive' : ''}`}>
+                  <div className={`stat-value-compact ${item.positive ? 'positive' : ''}`}>
                     {item.value}
                   </div>
                 </div>
@@ -504,6 +549,43 @@ const StatsTab = ({ stats }) => {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Performance Metrics */}
+      <div className="performance-metrics">
+        <div className="metric-card">
+          <div className="metric-header">
+            <div className="metric-title">Top Player Distribution</div>
+            <div className="metric-trend">
+              <span>↑</span>
+              <span>Balanced</span>
+            </div>
+          </div>
+          <div className="metric-bar">
+            <div className="metric-fill" style={{ width: '85%' }}></div>
+          </div>
+          <div className="metric-stats">
+            <span>90+ Rating: {players.filter(p => p.rating >= 90).length}</span>
+            <span>85-89: {players.filter(p => p.rating >= 85 && p.rating < 90).length}</span>
+          </div>
+        </div>
+
+        <div className="metric-card">
+          <div className="metric-header">
+            <div className="metric-title">Team Performance</div>
+            <div className="metric-trend">
+              <span>→</span>
+              <span>Stable</span>
+            </div>
+          </div>
+          <div className="metric-bar">
+            <div className="metric-fill" style={{ width: '70%' }}></div>
+          </div>
+          <div className="metric-stats">
+            <span>Top Teams: 8</span>
+            <span>Active: 12</span>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -519,115 +601,85 @@ const PlayerModal = ({ player, onClose }) => {
         <button className="close-btn" onClick={onClose}>×</button>
         
         <div className="modal-header">
-          <div className="player-image-large">
-            <img 
-              src={getPlayerImage(player)} 
-              alt={player.name}
-              onError={(e) => {
-                e.target.style.display = 'none';
-                e.target.nextSibling.style.display = 'flex';
-              }}
-            />
-            <div className="image-fallback" style={{ display: 'none' }}>
-              👤
-            </div>
-          </div>
-          <div className="player-details">
-            <h2>{player.name}</h2>
-            <div className="player-meta">
-              <span className="team">{player.team}</span>
-              <span className="country">
-                <img 
-                  src={getFlagUrl(player.country)} 
-                  alt={player.country}
-                  className="flag"
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                    const fallbackSpan = document.createElement('span');
-                    fallbackSpan.className = 'flag-fallback';
-                    fallbackSpan.textContent = player.country;
-                    e.target.parentNode.appendChild(fallbackSpan);
-                  }}
-                />
-                {player.country}
-              </span>
-            </div>
-            <div 
-              className="player-rating-large"
-              style={{ color: getRatingColor(player.rating) }}
-            >
-              {player.rating}
-              <div className="trend-large">
-                <img 
-                  src={getTrendIcon(player.trend)} 
-                  alt={player.trend}
-                  className="trend-icon-large"
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                    const fallbackText = document.createElement('div');
-                    fallbackText.className = 'trend-fallback-large';
-                    fallbackText.textContent = 
-                      player.trend === 'up' ? '↑' : 
-                      player.trend === 'down' ? '↓' : 
-                      player.trend === 'new' ? '⭐' : '→';
-                    fallbackText.style.color = getTrendColor(player.trend);
-                    fallbackText.style.fontSize = '20px';
-                    fallbackText.style.fontWeight = 'bold';
-                    e.target.parentNode.appendChild(fallbackText);
-                  }}
-                />
-              </div>
-            </div>
+          <h2>{player.name}</h2>
+          <p>{player.team} • {player.country}</p>
+        </div>
+
+        <div className="player-image-large">
+          <img 
+            src={getPlayerImage(player)} 
+            alt={player.name}
+            onError={(e) => {
+              e.target.style.display = 'none';
+              e.target.nextSibling.style.display = 'flex';
+            }}
+          />
+          <div className="image-fallback" style={{ display: 'none' }}>
+            👤
           </div>
         </div>
 
         <div className="modal-stats">
-          <div className="stat-grid">
-            <div className="stat-item-modal">
-              <div className="stat-value">{player.stats.kills}</div>
-              <div className="stat-label">Kills</div>
-            </div>
-            <div className="stat-item-modal">
-              <div className="stat-value">{player.stats.assists}</div>
-              <div className="stat-label">Assists</div>
-            </div>
-            <div className="stat-item-modal">
-              <div className="stat-value">{player.stats.damage}</div>
-              <div className="stat-label">Damage</div>
-            </div>
-            <div className="stat-item-modal">
-              <div className="stat-value">{player.stats.entries}</div>
-              <div className="stat-label">Entries</div>
-            </div>
-            <div className="stat-item-modal">
-              <div className="stat-value">{player.stats.kd.toFixed(2)}</div>
-              <div className="stat-label">K/D Ratio</div>
-            </div>
-            <div className="stat-item-modal">
-              <div className="stat-value">{player.stats.adr.toFixed(1)}</div>
-              <div className="stat-label">ADR</div>
+          <div className="modal-stat">
+            <div className="modal-stat-value">{player.rating}</div>
+            <div className="modal-stat-label">Rating</div>
+          </div>
+          <div className="modal-stat">
+            <div className="modal-stat-value">{player.stats.kills}</div>
+            <div className="modal-stat-label">Kills</div>
+          </div>
+          <div className="modal-stat">
+            <div className="modal-stat-value">{player.stats.assists}</div>
+            <div className="modal-stat-label">Assists</div>
+          </div>
+          <div className="modal-stat">
+            <div className="modal-stat-value">{player.stats.kd.toFixed(2)}</div>
+            <div className="modal-stat-label">K/D Ratio</div>
+          </div>
+        </div>
+
+        <div className="modal-details">
+          <div className="detail-item">
+            <div className="detail-label">Damage</div>
+            <div className="detail-value">{player.stats.damage.toLocaleString()}</div>
+          </div>
+          <div className="detail-item">
+            <div className="detail-label">ADR</div>
+            <div className="detail-value">{player.stats.adr.toFixed(1)}</div>
+          </div>
+          <div className="detail-item">
+            <div className="detail-label">Entries</div>
+            <div className="detail-value">{player.stats.entries}</div>
+          </div>
+          <div className="detail-item">
+            <div className="detail-label">Trend</div>
+            <div className="detail-value">
+              <img 
+                src={getTrendIcon(player.trend)} 
+                alt={player.trend}
+                style={{ width: '20px', height: '20px' }}
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  const fallbackText = document.createElement('span');
+                  fallbackText.textContent = 
+                    player.trend === 'up' ? '↑' : 
+                    player.trend === 'down' ? '↓' : 
+                    player.trend === 'new' ? '⭐' : '→';
+                  fallbackText.style.color = getTrendColor(player.trend);
+                  fallbackText.style.fontWeight = 'bold';
+                  e.target.parentNode.appendChild(fallbackText);
+                }}
+              />
             </div>
           </div>
         </div>
 
-        <div className="performance-chart">
-          <h3>Rating History</h3>
-          <div className="chart-placeholder">
-            <div className="chart-bars">
-              {player.history.map((rating, index) => (
-                <div key={index} className="chart-bar-container">
-                  <div 
-                    className="chart-bar"
-                    style={{ 
-                      height: `${(rating - 60) * 2}px`,
-                      background: getRatingColor(rating)
-                    }}
-                  ></div>
-                  <div className="chart-label">{rating.toFixed(1)}</div>
-                </div>
-              ))}
-            </div>
-          </div>
+        <div className="modal-bio">
+          <h3>📈 Performance History</h3>
+          <p>
+            Consistent performer with strong statistics across multiple tournaments. 
+            Currently ranked among the top players with excellent kill-death ratio and damage output.
+          </p>
         </div>
       </div>
     </div>
@@ -702,7 +754,7 @@ const App = () => {
             onPlayerSelect={setSelectedPlayer}
           />
         )}
-        {activeTab === 'stats' && <StatsTab stats={statsData} />}
+        {activeTab === 'stats' && <StatsTab stats={statsData} players={playerData} />}
       </main>
 
       {selectedPlayer && (
