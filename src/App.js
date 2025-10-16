@@ -1,13 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import './App.css';
 
-// ============================================================================
-// MANUAL DATA ENTRY - Replace these arrays with your actual data
-// ============================================================================
-
-// Replace this array with your actual player data
 const playerData = [
-  // Format for each player:
   {
     id: 1,
     name: "Zenon",
@@ -63,10 +57,8 @@ const playerData = [
     history: [88.0, 88.9, 89.3, 89.6]
   },
   // Add more players here following the same format...
-  // Make sure to include ALL your players in this array
 ];
 
-// Replace this object with your actual statistics data
 const statsData = {
   kills: [
     { player: "Zenon", country: "PL", value: 315 },
@@ -106,7 +98,7 @@ const statsData = {
 };
 
 // ============================================================================
-// UTILITY FUNCTIONS - No need to modify these
+// UTILITY FUNCTIONS 
 // ============================================================================
 
 const getRatingColor = (rating) => {
@@ -751,3 +743,4 @@ const App = () => {
 };
 
 export default App;
+
