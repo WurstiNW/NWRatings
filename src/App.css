@@ -5,22 +5,26 @@
 }
 
 :root {
-  --primary: #7f00ff;
-  --primary-dark: #6a00cc;
-  --primary-light: #9d4dff;
-  --secondary: #0096ff;
-  --secondary-dark: #0077cc;
-  --success: #4CAF50;
-  --warning: #ffa500;
-  --danger: #f44336;
-  --dark: #1a1a2e;
-  --darker: #16213e;
-  --darkest: #0f1123;
-  --light: #f8f9fa;
-  --gray: #6c757d;
-  --gray-dark: #495057;
-  --border: rgba(255,255,255,0.1);
-  --border-light: rgba(255,255,255,0.05);
+  --primary: #2c5282;
+  --primary-dark: #1a365d;
+  --primary-light: #4299e1;
+  --secondary: #63b3ed;
+  --secondary-dark: #3182ce;
+  --accent: #90cdf4;
+  --silver: #cbd5e0;
+  --silver-dark: #a0aec0;
+  --silver-light: #e2e8f0;
+  --success: #48bb78;
+  --warning: #ed8936;
+  --danger: #f56565;
+  --dark: #1a202c;
+  --darker: #2d3748;
+  --darkest: #4a5568;
+  --light: #f7fafc;
+  --gray: #718096;
+  --gray-dark: #4a5568;
+  --border: rgba(255,255,255,0.15);
+  --border-light: rgba(255,255,255,0.1);
 }
 
 body {
@@ -47,9 +51,9 @@ body {
   width: 100%;
   height: 100%;
   background: 
-    radial-gradient(circle at 20% 80%, rgba(127, 0, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(0, 150, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(76, 175, 80, 0.05) 0%, transparent 50%);
+    radial-gradient(circle at 20% 80%, rgba(44, 82, 130, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(99, 179, 237, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(203, 213, 224, 0.05) 0%, transparent 50%);
   z-index: -1;
   animation: bgPulse 10s ease-in-out infinite;
 }
@@ -61,7 +65,7 @@ body {
 
 /* Header */
 .header {
-  background: rgba(26, 26, 46, 0.8);
+  background: rgba(26, 32, 44, 0.9);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
   padding: 1rem 0;
@@ -71,7 +75,7 @@ body {
 }
 
 .header-content {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -87,7 +91,7 @@ body {
 
 .title {
   font-size: 1.8rem;
-  background: linear-gradient(45deg, var(--primary), var(--secondary));
+  background: linear-gradient(45deg, var(--primary-light), var(--accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 700;
@@ -112,8 +116,8 @@ body {
 
 .search-input:focus {
   outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(127, 0, 255, 0.2);
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.2);
 }
 
 .search-icon {
@@ -121,7 +125,7 @@ body {
   left: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--gray);
+  color: var(--silver-dark);
 }
 
 /* Navigation */
@@ -130,7 +134,7 @@ body {
   justify-content: center;
   gap: 1rem;
   padding: 1rem 2rem;
-  background: rgba(26, 26, 46, 0.6);
+  background: rgba(45, 55, 72, 0.8);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
 }
@@ -143,7 +147,7 @@ body {
   background: transparent;
   border: 1px solid var(--border);
   border-radius: 50px;
-  color: var(--light);
+  color: var(--silver-light);
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.9rem;
@@ -151,14 +155,16 @@ body {
 }
 
 .nav-btn:hover {
-  background: rgba(127, 0, 255, 0.1);
-  border-color: var(--primary);
+  background: rgba(66, 153, 225, 0.1);
+  border-color: var(--primary-light);
+  color: var(--light);
 }
 
 .nav-btn.active {
-  background: var(--primary);
-  border-color: var(--primary);
-  box-shadow: 0 4px 15px rgba(127, 0, 255, 0.3);
+  background: var(--primary-light);
+  border-color: var(--primary-light);
+  color: white;
+  box-shadow: 0 4px 15px rgba(66, 153, 225, 0.3);
 }
 
 .nav-icon {
@@ -167,9 +173,10 @@ body {
 
 /* Main Content */
 .main-content {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 2rem;
+  min-height: calc(100vh - 200px);
 }
 
 /* Overview Tab */
@@ -180,11 +187,12 @@ body {
 .hero-section {
   text-align: center;
   padding: 4rem 0;
-  background: linear-gradient(135deg, rgba(127, 0, 255, 0.1), rgba(0, 150, 255, 0.1));
+  background: linear-gradient(135deg, rgba(44, 82, 130, 0.2), rgba(99, 179, 237, 0.15));
   border-radius: 20px;
   margin-bottom: 3rem;
   position: relative;
   overflow: hidden;
+  border: 1px solid var(--border);
 }
 
 .hero-section::before {
@@ -194,21 +202,21 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="rgba(127,0,255,0.05)" points="0,1000 1000,0 1000,1000"/></svg>');
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="rgba(203,213,224,0.05)" points="0,1000 1000,0 1000,1000"/></svg>');
   background-size: cover;
 }
 
 .hero-content h2 {
   font-size: 3rem;
   margin-bottom: 1rem;
-  background: linear-gradient(45deg, var(--primary), var(--secondary));
+  background: linear-gradient(45deg, var(--primary-light), var(--accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .hero-content p {
   font-size: 1.2rem;
-  color: var(--gray);
+  color: var(--silver);
   margin-bottom: 2rem;
 }
 
@@ -216,26 +224,32 @@ body {
   display: flex;
   justify-content: center;
   gap: 2rem;
+  flex-wrap: wrap;
 }
 
 .stat-card {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.08);
   padding: 1.5rem;
   border-radius: 15px;
   backdrop-filter: blur(10px);
   border: 1px solid var(--border);
   min-width: 120px;
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
 }
 
 .stat-value {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--primary);
+  color: var(--primary-light);
   margin-bottom: 0.5rem;
 }
 
 .stat-label {
-  color: var(--gray);
+  color: var(--silver);
   font-size: 0.9rem;
 }
 
@@ -269,7 +283,7 @@ body {
 
 .featured-player-card:hover {
   transform: translateY(-5px);
-  border-color: var(--primary);
+  border-color: var(--primary-light);
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
@@ -282,12 +296,14 @@ body {
   border-radius: 10px;
   font-size: 0.8rem;
   font-weight: 600;
+  color: var(--silver-light);
 }
 
 .featured-player-card .player-name {
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
+  color: var(--light);
 }
 
 .featured-player-card .player-rating {
@@ -306,11 +322,13 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .section-header h2 {
   font-size: 2rem;
-  background: linear-gradient(45deg, var(--primary), var(--secondary));
+  background: linear-gradient(45deg, var(--primary-light), var(--accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -318,28 +336,37 @@ body {
 .filters {
   display: flex;
   gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .filter-btn {
   padding: 0.5rem 1rem;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.08);
   border: 1px solid var(--border);
   border-radius: 20px;
-  color: var(--light);
+  color: var(--silver);
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.filter-btn:hover {
+  background: rgba(66, 153, 225, 0.1);
+  color: var(--light);
 }
 
 .filter-btn.active {
-  background: var(--primary);
-  border-color: var(--primary);
+  background: var(--primary-light);
+  border-color: var(--primary-light);
+  color: white;
 }
 
 .players-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .player-card {
@@ -357,7 +384,7 @@ body {
 .player-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  border-color: var(--primary);
+  border-color: var(--primary-light);
 }
 
 .card-glow {
@@ -378,6 +405,7 @@ body {
   border-radius: 10px;
   font-size: 0.8rem;
   font-weight: 600;
+  color: var(--silver-light);
 }
 
 /* Player Image Styles */
@@ -404,6 +432,26 @@ body {
   transform: scale(1.05);
 }
 
+/* Flag Styles */
+.flag {
+  width: 20px;
+  height: 15px;
+  border-radius: 2px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+}
+
+.flag-fallback {
+  background: var(--primary);
+  color: white;
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+/* Trend Icon Styles */
 .trend-indicator {
   position: absolute;
   bottom: -5px;
@@ -414,9 +462,25 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.8rem;
   border: 2px solid var(--dark);
+  background: white;
+  overflow: hidden;
+}
+
+.trend-icon {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+}
+
+.trend-fallback {
+  font-size: 10px;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
 .player-info {
@@ -432,10 +496,11 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  color: var(--light);
 }
 
 .player-team {
-  color: var(--gray);
+  color: var(--silver);
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
 }
@@ -461,12 +526,48 @@ body {
   display: block;
   font-weight: 600;
   font-size: 1.1rem;
+  color: var(--primary-light);
 }
 
 .stat-label {
   display: block;
   font-size: 0.8rem;
-  color: var(--gray);
+  color: var(--silver);
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding: 1rem;
+}
+
+.pagination-btn {
+  padding: 0.5rem 1rem;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--light);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: var(--primary-light);
+  border-color: var(--primary-light);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  color: var(--silver);
+  font-size: 0.9rem;
 }
 
 /* Featured player cards */
@@ -536,7 +637,7 @@ body {
   align-items: center;
   justify-content: center;
   background: rgba(255,255,255,0.1);
-  color: var(--gray);
+  color: var(--silver);
   border-radius: 50%;
 }
 
@@ -652,13 +753,15 @@ body {
 .player-details h2 {
   font-size: 2rem;
   margin-bottom: 0.5rem;
+  color: var(--light);
 }
 
 .player-meta {
   display: flex;
   gap: 1rem;
   margin-bottom: 1rem;
-  color: var(--gray);
+  color: var(--silver);
+  align-items: center;
 }
 
 .player-rating-large {
@@ -671,7 +774,22 @@ body {
 }
 
 .trend-large {
-  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trend-icon-large {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  margin-left: 8px;
+}
+
+.trend-fallback-large {
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 8px;
 }
 
 .modal-stats {
@@ -685,22 +803,27 @@ body {
 }
 
 .stat-item-modal {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.08);
   padding: 1rem;
   border-radius: 10px;
   text-align: center;
   border: 1px solid var(--border);
+  transition: transform 0.3s ease;
+}
+
+.stat-item-modal:hover {
+  transform: translateY(-2px);
 }
 
 .stat-item-modal .stat-value {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--primary);
+  color: var(--primary-light);
   margin-bottom: 0.25rem;
 }
 
 .stat-item-modal .stat-label {
-  color: var(--gray);
+  color: var(--silver);
   font-size: 0.9rem;
 }
 
@@ -720,13 +843,14 @@ body {
   background: rgba(255,255,255,0.05);
   border-radius: 10px;
   border: 1px dashed var(--border);
+  padding: 1rem;
 }
 
 /* Stats Tab */
 .stats-tab h2 {
   font-size: 2rem;
   margin-bottom: 2rem;
-  background: linear-gradient(45deg, var(--primary), var(--secondary));
+  background: linear-gradient(45deg, var(--primary-light), var(--accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -743,11 +867,16 @@ body {
   border-radius: 15px;
   padding: 1.5rem;
   backdrop-filter: blur(10px);
+  transition: transform 0.3s ease;
+}
+
+.stat-card-large:hover {
+  transform: translateY(-2px);
 }
 
 .stat-card-large h3 {
   margin-bottom: 1rem;
-  color: var(--primary);
+  color: var(--primary-light);
   font-size: 1.2rem;
 }
 
@@ -762,13 +891,18 @@ body {
   align-items: center;
   gap: 1rem;
   padding: 0.75rem;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.08);
   border-radius: 10px;
   border: 1px solid var(--border);
+  transition: transform 0.2s ease;
+}
+
+.stat-item:hover {
+  transform: translateX(5px);
 }
 
 .rank {
-  background: var(--primary);
+  background: var(--primary-light);
   color: white;
   width: 24px;
   height: 24px;
@@ -778,6 +912,7 @@ body {
   justify-content: center;
   font-size: 0.8rem;
   font-weight: 600;
+  flex-shrink: 0;
 }
 
 .player-info {
@@ -789,11 +924,12 @@ body {
 
 .player-name {
   font-weight: 500;
+  color: var(--light);
 }
 
 .stat-value {
   font-weight: 600;
-  color: var(--primary);
+  color: var(--primary-light);
 }
 
 .stat-value.positive {
@@ -804,7 +940,7 @@ body {
 .leaderboards-tab h2 {
   font-size: 2rem;
   margin-bottom: 2rem;
-  background: linear-gradient(45deg, var(--primary), var(--secondary));
+  background: linear-gradient(45deg, var(--primary-light), var(--accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -842,22 +978,22 @@ body {
 
 .top-player:hover {
   transform: translateY(-2px);
-  border-color: var(--primary);
+  border-color: var(--primary-light);
 }
 
 .top-player.rank-1 {
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05));
-  border-color: rgba(255, 215, 0, 0.3);
+  background: linear-gradient(135deg, rgba(44, 82, 130, 0.2), rgba(44, 82, 130, 0.1));
+  border-color: rgba(44, 82, 130, 0.4);
 }
 
 .top-player.rank-2 {
-  background: linear-gradient(135deg, rgba(192, 192, 192, 0.1), rgba(192, 192, 192, 0.05));
-  border-color: rgba(192, 192, 192, 0.3);
+  background: linear-gradient(135deg, rgba(99, 179, 237, 0.15), rgba(99, 179, 237, 0.08));
+  border-color: rgba(99, 179, 237, 0.3);
 }
 
 .top-player.rank-3 {
-  background: linear-gradient(135deg, rgba(205, 127, 50, 0.1), rgba(205, 127, 50, 0.05));
-  border-color: rgba(205, 127, 50, 0.3);
+  background: linear-gradient(135deg, rgba(203, 213, 224, 0.1), rgba(203, 213, 224, 0.05));
+  border-color: rgba(203, 213, 224, 0.2);
 }
 
 .rank-badge {
@@ -870,11 +1006,13 @@ body {
   font-weight: 700;
   font-size: 1.2rem;
   flex-shrink: 0;
+  background: var(--primary-light);
+  color: white;
 }
 
-.rank-1 .rank-badge { background: gold; color: #000; }
-.rank-2 .rank-badge { background: silver; color: #000; }
-.rank-3 .rank-badge { background: #cd7f32; color: #000; }
+.rank-1 .rank-badge { background: var(--primary); }
+.rank-2 .rank-badge { background: var(--primary-light); }
+.rank-3 .rank-badge { background: var(--accent); }
 
 .player-details {
   flex: 1;
@@ -884,13 +1022,16 @@ body {
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .player-stats {
   display: flex;
   gap: 1rem;
   font-size: 0.9rem;
-  color: var(--gray);
+  color: var(--silver);
 }
 
 .quick-stats {
@@ -904,11 +1045,16 @@ body {
   padding: 1rem;
   border-radius: 10px;
   border: 1px solid var(--border);
+  transition: transform 0.3s ease;
+}
+
+.quick-stat:hover {
+  transform: translateY(-2px);
 }
 
 .stat-title {
   font-size: 0.9rem;
-  color: var(--gray);
+  color: var(--silver);
   margin-bottom: 0.25rem;
 }
 
@@ -919,7 +1065,7 @@ body {
 
 /* Footer */
 .app-footer {
-  background: rgba(26, 26, 46, 0.8);
+  background: rgba(26, 32, 44, 0.9);
   backdrop-filter: blur(10px);
   border-top: 1px solid var(--border);
   padding: 2rem 0;
@@ -927,13 +1073,13 @@ body {
 }
 
 .footer-content {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: var(--gray);
+  color: var(--silver);
 }
 
 .footer-links {
@@ -948,6 +1094,12 @@ body {
 }
 
 /* Responsive Design */
+@media (max-width: 1200px) {
+  .players-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
 @media (max-width: 768px) {
   .header-content {
     flex-direction: column;
@@ -1004,78 +1156,27 @@ body {
   .filters {
     flex-wrap: wrap;
   }
+  
+  .main-content {
+    padding: 1rem;
+  }
+  
+  .pagination {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 }
 
-/* Trend Icon Styles */
-.trend-indicator {
-  position: absolute;
-  bottom: -5px;
-  right: -5px;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid var(--dark);
-  background: white;
-  overflow: hidden;
-}
-
-.trend-icon {
-  width: 12px;
-  height: 12px;
-  object-fit: contain;
-}
-
-.trend-fallback {
-  font-size: 10px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-
-/* Modal trend icon */
-.trend-large {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.trend-icon-large {
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
-  margin-left: 8px;
-}
-
-.trend-fallback-large {
-  font-size: 20px;
-  font-weight: bold;
-  margin-left: 8px;
-}
-
-/* Ensure trend icons are visible on all backgrounds */
-.trend-indicator img {
-  filter: brightness(0) saturate(100%);
-}
-
-/* Specific trend icon colors based on type */
-.trend-indicator[style*="background-color: #4CAF50"] img {
-  filter: brightness(0) saturate(100%) invert(44%) sepia(91%) saturate(391%) hue-rotate(87deg) brightness(95%) contrast(87%);
-}
-
-.trend-indicator[style*="background-color: #f44336"] img {
-  filter: brightness(0) saturate(100%) invert(37%) sepia(93%) saturate(747%) hue-rotate(316deg) brightness(97%) contrast(111%);
-}
-
-.trend-indicator[style*="background-color: #666"] img {
-  filter: brightness(0) saturate(100%) invert(39%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(92%) contrast(86%);
-}
-
-.trend-indicator[style*="background-color: #FFD700"] img {
-  filter: brightness(0) saturate(100%) invert(76%) sepia(67%) saturate(541%) hue-rotate(1deg) brightness(105%) contrast(101%);
+@media (max-width: 480px) {
+  .players-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .featured-players .players-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
 }
