@@ -109,6 +109,51 @@ const statsData = {
   ]
 };
 
+// Utility functions
+const getRatingColor = (rating) => {
+  if (rating >= 90) return '#7f00ff';
+  if (rating >= 85) return '#0096ff';
+  if (rating >= 80) return '#4CAF50';
+  if (rating >= 75) return '#ffa500';
+  return '#f44336';
+};
+
+const getTrendIcon = (trend) => {
+  switch(trend) {
+    case "up": return "↗";
+    case "down": return "↘";
+    case "same": return "→";
+    case "new": return "⭐";
+    default: return "";
+  }
+};
+
+const getTrendColor = (trend) => {
+  switch(trend) {
+    case "up": return "#4CAF50";
+    case "down": return "#f44336";
+    case "same": return "#666";
+    case "new": return "#FFD700";
+    default: return "#666";
+  }
+};
+
+const getFlagEmoji = (countryCode) => {
+  const flagEmojis = {
+    'PL': '🇵🇱', 'FR': '🇫🇷', 'SE': '🇸🇪', 'DE': '🇩🇪', 
+    'EN': '🏴', 'NL': '🇳🇱', 'IR': '🇮🇷', 'UA': '🇺🇦',
+    'BE': '🇧🇪', 'RU': '🇷🇺', 'SC': '🏴', 'NO': '🇳🇴'
+  };
+  return flagEmojis[countryCode] || '🏳️';
+};
+
+const getPlayerImage = (player) => {
+  if (player.image && player.image.includes('byt-tournaments.de')) {
+    return player.image;
+  }
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(player.name)}&background=7f00ff&color=fff&size=128&bold=true`;
+};
+
 // Header Component
 const Header = ({ searchTerm, onSearchChange }) => {
   return (
@@ -192,7 +237,17 @@ const OverviewTab = ({ players, stats }) => {
             <div key={player.id} className="featured-player-card">
               <div className="player-rank">#{index + 1}</div>
               <div className="player-avatar">
-                <img src={player.image} alt={player.name} />
+                <img 
+                  src={getPlayerImage(player)} 
+                  alt={player.name}
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'flex';
+                  }}
+                />
+                <div className="image-fallback" style={{ display: 'none' }}>
+                  👤
+                </div>
               </div>
               <div className="player-name">{player.name}</div>
               <div 
@@ -263,7 +318,17 @@ const PlayersTab = ({ players, onPlayerSelect }) => {
             <div className="card-glow" style={{ background: getRatingColor(player.rating) }}></div>
             <div className="player-rank">#{index + 1}</div>
             <div className="player-image">
-              <img src={player.image} alt={player.name} />
+              <img 
+                src={getPlayerImage(player)} 
+                alt={player.name}
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'flex';
+                }}
+              />
+              <div className="image-fallback" style={{ display: 'none' }}>
+                👤
+              </div>
               <div 
                 className="trend-indicator"
                 style={{ backgroundColor: getTrendColor(player.trend) }}
@@ -346,7 +411,17 @@ const LeaderboardsTab = ({ stats, players }) => {
               <div key={player.id} className={`top-player rank-${index + 1}`}>
                 <div className="rank-badge">{index + 1}</div>
                 <div className="player-avatar">
-                  <img src={player.image} alt={player.name} />
+                  <img 
+                    src={getPlayerImage(player)} 
+                    alt={player.name}
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.nextSibling.style.display = 'flex';
+                    }}
+                  />
+                  <div className="image-fallback" style={{ display: 'none' }}>
+                    👤
+                  </div>
                 </div>
                 <div className="player-details">
                   <div className="player-name">{player.name}</div>
@@ -393,7 +468,17 @@ const PlayerModal = ({ player, onClose }) => {
         
         <div className="modal-header">
           <div className="player-image-large">
-            <img src={player.image} alt={player.name} />
+            <img 
+              src={getPlayerImage(player)} 
+              alt={player.name}
+              onError={(e) => {
+                e.target.style.display = 'none';
+                e.target.nextSibling.style.display = 'flex';
+              }}
+            />
+            <div className="image-fallback" style={{ display: 'none' }}>
+              👤
+            </div>
           </div>
           <div className="player-details">
             <h2>{player.name}</h2>
@@ -481,44 +566,6 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
-
-// Utility functions
-const getRatingColor = (rating) => {
-  if (rating >= 90) return '#7f00ff';
-  if (rating >= 85) return '#0096ff';
-  if (rating >= 80) return '#4CAF50';
-  if (rating >= 75) return '#ffa500';
-  return '#f44336';
-};
-
-const getTrendIcon = (trend) => {
-  switch(trend) {
-    case "up": return "↗";
-    case "down": return "↘";
-    case "same": return "→";
-    case "new": return "⭐";
-    default: return "";
-  }
-};
-
-const getTrendColor = (trend) => {
-  switch(trend) {
-    case "up": return "#4CAF50";
-    case "down": return "#f44336";
-    case "same": return "#666";
-    case "new": return "#FFD700";
-    default: return "#666";
-  }
-};
-
-const getFlagEmoji = (countryCode) => {
-  const flagEmojis = {
-    'PL': '🇵🇱', 'FR': '🇫🇷', 'SE': '🇸🇪', 'DE': '🇩🇪', 
-    'EN': '🏴', 'NL': '🇳🇱', 'IR': '🇮🇷', 'UA': '🇺🇦',
-    'BE': '🇧🇪', 'RU': '🇷🇺', 'SC': '🏴', 'NO': '🇳🇴'
-  };
-  return flagEmojis[countryCode] || '🏳️';
 };
 
 // Main App Component
