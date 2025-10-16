@@ -68,6 +68,50 @@ const playerData = [
     image: "https://byt-tournaments.de/leaderboard/overlay/faces/927368.png",
     stats: { kills: 290, assists: 58, damage: 23200, entries: 45, kd: 1.30, adr: 81.5 },
     history: [89.0, 88.7, 88.9, 88.1]
+  },
+  {
+    id: 7,
+    name: "sHype",
+    country: "NL",
+    team: "Drug Abusers",
+    rating: 88.0,
+    trend: "down",
+    image: "https://byt-tournaments.de/leaderboard/overlay/faces/1472629.png",
+    stats: { kills: 327, assists: 86, damage: 27721, entries: 50, kd: 1.38, adr: 83.2 },
+    history: [89.5, 88.8, 88.3, 88.0]
+  },
+  {
+    id: 8,
+    name: "Jakob",
+    country: "DE",
+    team: "Gotei 13",
+    rating: 87.4,
+    trend: "up",
+    image: "https://byt-tournaments.de/leaderboard/overlay/faces/1123134.png",
+    stats: { kills: 310, assists: 100, damage: 26692, entries: 44, kd: 1.29, adr: 80.1 },
+    history: [85.2, 86.1, 86.9, 87.4]
+  },
+  {
+    id: 9,
+    name: "Gibby",
+    country: "EN",
+    team: "Unknown",
+    rating: 87.1,
+    trend: "up",
+    image: "https://ui-avatars.com/api/?name=Gibby&background=7f00ff&color=fff&size=128&bold=true",
+    stats: { kills: 245, assists: 52, damage: 21500, entries: 32, kd: 1.18, adr: 76.8 },
+    history: [84.5, 85.3, 86.2, 87.1]
+  },
+  {
+    id: 10,
+    name: "TheDeaD",
+    country: "FR",
+    team: "Unknown",
+    rating: 86.9,
+    trend: "up",
+    image: "https://ui-avatars.com/api/?name=TheDeaD&background=0096ff&color=fff&size=128&bold=true",
+    stats: { kills: 268, assists: 61, damage: 22900, entries: 41, kd: 1.24, adr: 79.2 },
+    history: [84.8, 85.6, 86.3, 86.9]
   }
 ];
 
@@ -118,13 +162,21 @@ const getRatingColor = (rating) => {
   return '#f44336';
 };
 
+// Use actual BYT tournament trend icons
 const getTrendIcon = (trend) => {
+  const iconBaseUrl = 'https://byt-tournaments.de/matches/icons';
+  
   switch(trend) {
-    case "up": return "↗";
-    case "down": return "↘";
-    case "same": return "→";
-    case "new": return "⭐";
-    default: return "";
+    case "up": 
+      return `${iconBaseUrl}/up.png`;
+    case "down": 
+      return `${iconBaseUrl}/down.png`;
+    case "same": 
+      return `${iconBaseUrl}/same.png`;
+    case "new": 
+      return `${iconBaseUrl}/new.png`;
+    default: 
+      return `${iconBaseUrl}/same.png`;
   }
 };
 
@@ -329,11 +381,26 @@ const PlayersTab = ({ players, onPlayerSelect }) => {
               <div className="image-fallback" style={{ display: 'none' }}>
                 👤
               </div>
-              <div 
-                className="trend-indicator"
-                style={{ backgroundColor: getTrendColor(player.trend) }}
-              >
-                {getTrendIcon(player.trend)}
+              <div className="trend-indicator">
+                <img 
+                  src={getTrendIcon(player.trend)} 
+                  alt={player.trend}
+                  className="trend-icon"
+                  onError={(e) => {
+                    // Fallback to text if image fails to load
+                    e.target.style.display = 'none';
+                    const fallbackText = document.createElement('div');
+                    fallbackText.className = 'trend-fallback';
+                    fallbackText.textContent = 
+                      player.trend === 'up' ? '↑' : 
+                      player.trend === 'down' ? '↓' : 
+                      player.trend === 'new' ? '⭐' : '→';
+                    fallbackText.style.color = getTrendColor(player.trend);
+                    fallbackText.style.fontSize = '10px';
+                    fallbackText.style.fontWeight = 'bold';
+                    e.target.parentNode.appendChild(fallbackText);
+                  }}
+                />
               </div>
             </div>
             <div className="player-info">
@@ -491,12 +558,26 @@ const PlayerModal = ({ player, onClose }) => {
               style={{ color: getRatingColor(player.rating) }}
             >
               {player.rating}
-              <span 
-                className="trend-large"
-                style={{ color: getTrendColor(player.trend) }}
-              >
-                {getTrendIcon(player.trend)}
-              </span>
+              <div className="trend-large">
+                <img 
+                  src={getTrendIcon(player.trend)} 
+                  alt={player.trend}
+                  className="trend-icon-large"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    const fallbackText = document.createElement('div');
+                    fallbackText.className = 'trend-fallback-large';
+                    fallbackText.textContent = 
+                      player.trend === 'up' ? '↑' : 
+                      player.trend === 'down' ? '↓' : 
+                      player.trend === 'new' ? '⭐' : '→';
+                    fallbackText.style.color = getTrendColor(player.trend);
+                    fallbackText.style.fontSize = '20px';
+                    fallbackText.style.fontWeight = 'bold';
+                    e.target.parentNode.appendChild(fallbackText);
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
